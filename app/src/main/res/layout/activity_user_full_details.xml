@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.user_full_details.UserFullDetails">
+
+
+
+    <ImageView
+        android:id="@+id/person_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:elevation="15dp"
+        android:scaleType="fitXY"/>
+
+
+    <RelativeLayout
+        android:id="@+id/user_basic_info_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/person_image"
+        android:layout_marginLeft="15dp">
+
+
+        <TextView
+            android:id="@+id/person_name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pankaj"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="22sp"/>
+
+        <TextView
+            android:id="@+id/distance_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/person_name_txt"
+            android:text="100m away"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="asdasdasd"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/user_basic_info_relative_layout"/>
+
+    </RelativeLayout>
