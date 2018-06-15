@@ -7,50 +7,94 @@
     tools:context=".ui.activity.user_full_details.UserFullDetails">
 
 
+    <RelativeLayout
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:id="@+id/back_image_view"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:padding="13dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"/>
+
+        <TextView
+            android:id="@+id/username_top_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="18dp"
+            android:textColor="@android:color/white"
+            android:text="username"/>
+
+    </RelativeLayout>
+
 
     <ImageView
+        android:layout_below="@+id/tool_bar"
         android:id="@+id/person_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:elevation="15dp"
         android:scaleType="fitXY"/>
 
 
-    <RelativeLayout
-        android:id="@+id/user_basic_info_relative_layout"
+    <android.support.v7.widget.CardView
+        android:id="@+id/user_basic_info_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/person_image"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
 
 
-        <TextView
-            android:id="@+id/person_name_txt"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pankaj"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="22sp"/>
-
-        <TextView
-            android:id="@+id/distance_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/person_name_txt"
-            android:text="100m away"/>
+            android:padding="10dp">
 
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/person_name_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pankaj"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="22sp"/>
 
-    <TextView
-        android:id="@+id/details"
+            <TextView
+                android:id="@+id/distance_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/person_name_txt"
+                android:text="100m away"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="asdasdasd"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/user_basic_info_relative_layout"/>
+        android:layout_below="@+id/user_basic_info_card_view">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="asdasdasd"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+    </android.support.v7.widget.CardView>
 
     </RelativeLayout>

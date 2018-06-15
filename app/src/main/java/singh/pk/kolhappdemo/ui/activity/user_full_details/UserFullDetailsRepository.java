@@ -1,16 +1,14 @@
-package singh.pk.kolhappdemo.ui.activity.user_details;
+package singh.pk.kolhappdemo.ui.activity.user_full_details;
 
 import android.content.Context;
 
 import com.fatboyindustrial.gsonjodatime.DateTimeConverter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import org.joda.time.DateTime;
 
 import java.io.File;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,27 +23,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import singh.pk.kolhappdemo.BuildConfig;
 import singh.pk.kolhappdemo.network.ApiCall;
-import singh.pk.kolhappdemo.ui.activity.user_details.pojo.KholApiPojo;
+import singh.pk.kolhappdemo.ui.activity.user_full_details.pojo.UserFullDetailsPojo;
 
+public class UserFullDetailsRepository extends BaseRepositoryUserFullDetails<UserFullDetailsPresenter> {
 
-public class MainRepository extends BaseRepositoryMain<MainPresenter> {
-
-    MainActivity mainActivity;
+    UserFullDetails userFullDetails;
     Retrofit retrofit;
     ApiCall apiCall;
 
     @Inject
-    public MainRepository(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    public UserFullDetailsRepository(UserFullDetails userFullDetails) {
+        this.userFullDetails = userFullDetails;
         retrofitInstance();
         apiCall = retrofit.create(ApiCall.class);
-
     }
 
     private void retrofitInstance() {
-        OkHttpClient okHttpClient = okHttpClient(loggingInterceptor(), cache(cacheFile(mainActivity)));
+        OkHttpClient okHttpClient = okHttpClient(loggingInterceptor(), cache(cacheFile(userFullDetails)));
         retrofit = retrofit(okHttpClient, gson());
-
     }
 
     public Retrofit retrofit (OkHttpClient okHttpClient, Gson gson) {
@@ -90,26 +85,25 @@ public class MainRepository extends BaseRepositoryMain<MainPresenter> {
     }
 
 
-    // User List data fetch Api Call.
-    public void getUserData(JsonObject jsonObject) {
-        // TODO: Api call for fetch data from server.
-        Call<KholApiPojo> call = apiCall.getUserInfo(jsonObject);
-        call.enqueue(new Callback<KholApiPojo>() {
+    public void getUserFullDetails(String activity) {
+
+        Call<UserFullDetailsPojo> call = apiCall.getUserFullDetails(activity);
+        call.enqueue(new Callback<UserFullDetailsPojo>() {
             @Override
-            public void onResponse(Call<KholApiPojo> call, Response<KholApiPojo> response) {
+            public void onResponse(Call<UserFullDetailsPojo> call, Response<UserFullDetailsPojo> response) {
                 if (response.code() == 200) {
-                    KholApiPojo dataResponses = response.body();
-                    getActions().getUserInfoResponse(dataResponses);
+                    UserFullDetailsPojo userFullDetailsPojo = response.body();
+                    getActions().getUserDetailsResponse(userFullDetailsPojo);
                 } else {
-                    getActions().getApiCallResponse("Data not fetch");
+                    getActions().getApiReqquestError("Data to fetch!");
                 }
             }
 
             @Override
-            public void onFailure(Call<KholApiPojo> call, Throwable t) {
-                getActions().getApiCallResponse(t.getMessage());
+            public void onFailure(Call<UserFullDetailsPojo> call, Throwable t) {
+                getActions().getApiReqquestError(t.getMessage());
             }
         });
-    }
 
+    }
 }

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ProgressBar;
@@ -30,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements MainContect.Views
     @BindView(R.id.user_list) RecyclerView recyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar mPBLoading;
+    @BindView(R.id.progress_bar_center)
+    ProgressBar mPBLoadingCenter;
+
 
     @Inject
     MainPresenter mainPresenter;
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainContect.Views
         mainComponent.injectMainActivity(this);
 
         initViews();
+        showProgressCenter();
 
     }
 
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements MainContect.Views
 
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
                     pastEvent = true;
+                    Log.d("Past Event Seen :::: " , ""+pastEvent);
                 }
             }
 
@@ -90,8 +96,15 @@ public class MainActivity extends AppCompatActivity implements MainContect.Views
                 totalItem = manager.getItemCount();
                 scrollOutItem = manager.findFirstVisibleItemPosition();
 
+                Log.d("Current Value :::::::: ", ""+currentItem);
+                Log.d("Total Value :::::::: ", ""+totalItem);
+                Log.d("Scroll Value :::::::: ", ""+scrollOutItem);
+
                 if (pastEvent && (currentItem + scrollOutItem == totalItem)) {
-                    fetchData(lat, lon, totalItem, count, pastEvent);
+                    start = start + 5;
+                    Log.d("Start Value :::::::: ", ""+start);
+                    fetchData(lat, lon, start, count, pastEvent);
+                    pastEvent = false;
                     showProgress();
                 }
             }
@@ -106,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements MainContect.Views
 
         JsonObject locationJSONObject = new JsonObject();
         JsonObject paginationJSONObject = new JsonObject();
-        final JsonObject pastEventsJSONObject = new JsonObject();
+        JsonObject pastEventsJSONObject = new JsonObject();
 
         locationJSONObject.addProperty("lat", latitude);
         locationJSONObject.addProperty("lon", longitude);
@@ -121,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements MainContect.Views
         // API Call.
         mainPresenter.getUserInfoApiCall(pastEventsJSONObject);
 
+
     }
 
     @Override
@@ -128,11 +142,13 @@ public class MainActivity extends AppCompatActivity implements MainContect.Views
         userInfoAdapter.updateList(userInfo);
         pastEvent = false;
         removeProgress();
+        removeProgressCenter();
     }
 
     @Override
     public void showApiResponseStatus(String status) {
         removeProgress();
+        removeProgressCenter();
         Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
     }
 
@@ -142,13 +158,12 @@ public class MainActivity extends AppCompatActivity implements MainContect.Views
         //TODO: pass data in object.
 
         Intent intent = new Intent(MainActivity.this, UserFullDetails.class);
-        intent.putExtra("image", userInfo.getOwnerProfileImageUrl());
-        intent.putExtra("name", userInfo.getOwnerName());
-        intent.putExtra("type", userInfo.getOwnerType());
-        intent.putExtra("detail", userInfo.getDescription());
+        intent.putExtra("activity_id", userInfo.getActivityId());
         startActivity(intent);
     }
 
     public void showProgress() { mPBLoading.setVisibility(View.VISIBLE); }
     public void removeProgress() { mPBLoading.setVisibility(View.GONE); }
+    public void showProgressCenter() { mPBLoadingCenter.setVisibility(View.VISIBLE); }
+    public void removeProgressCenter() { mPBLoadingCenter.setVisibility(View.GONE); }
 }
